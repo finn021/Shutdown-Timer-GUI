@@ -10,6 +10,9 @@ function Generate-GUI {
     $ShutdownTimerGUI.ClientSize = '500,300'
     $ShutdownTimerGUI.text = "Shutdown Timer"
     $ShutdownTimerGUI.BackColor = "#ffffff"
+    $iconBase64      = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgiIHdpZHRoPSI0OCI+PHBhdGggZD0iTTE4IDVWMmgxMnYzWm00LjUgMjIuMzVoM3YtMTEuNWgtM1ptMS41IDE2LjZxLTMuNyAwLTYuOTc1LTEuNDI1UTEzLjc1IDQxLjEgMTEuMyAzOC42NXEtMi40NS0yLjQ1LTMuODc1LTUuNzI1UTYgMjkuNjUgNiAyNS45NXEwLTMuNyAxLjQyNS02Ljk3NVE4Ljg1IDE1LjcgMTEuMyAxMy4yNXEyLjQ1LTIuNDUgNS43MjUtMy44NzVRMjAuMyA3Ljk1IDI0IDcuOTVxMy4zNSAwIDYuMyAxLjEyNSAyLjk1IDEuMTI1IDUuMjUgMy4xMjVsMi41NS0yLjU1IDIuMSAyLjEtMi41NSAyLjU1cTEuOCAyIDMuMDc1IDQuODVRNDIgMjIgNDIgMjUuOTVxMCAzLjctMS40MjUgNi45NzVRMzkuMTUgMzYuMiAzNi43IDM4LjY1cS0yLjQ1IDIuNDUtNS43MjUgMy44NzVRMjcuNyA0My45NSAyNCA0My45NVptMC0zcTYuMjUgMCAxMC42MjUtNC4zNzVUMzkgMjUuOTVxMC02LjI1LTQuMzc1LTEwLjYyNVQyNCAxMC45NXEtNi4yNSAwLTEwLjYyNSA0LjM3NVQ5IDI1Ljk1cTAgNi4yNSA0LjM3NSAxMC42MjVUMjQgNDAuOTVaTTI0IDI2WiIvPjwvc3ZnPg=='
+    $iconBytes       = [Convert]::FromBase64String($iconBase64)
+
 
     $Title = New-Object system.Windows.Forms.Label
     $Title.text = "Create a timer"
@@ -80,6 +83,9 @@ function Generate-GUI {
     Initialize-GUI
 
     [void]$ShutdownTimerGUI.ShowDialog()
+    
+    $stream          = [System.IO.MemoryStream]::new($iconBytes, 0, $iconBytes.Length)
+    $Form.Icon       = [System.Drawing.Icon]::FromHandle(([System.Drawing.Bitmap]::new($stream).GetHIcon()))
 }
 
 function Initialize-GUI {
