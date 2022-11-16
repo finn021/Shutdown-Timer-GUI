@@ -93,14 +93,12 @@ function Initialize-GUI {
     shutdown /s /t 999999 /c " "
     if ($?) {
         shutdown /a
-        echo No shutdown is pending
         $TimeInputBoxLabel.Enabled = $true
         $TimeInputBox.Enabled = $true
         $ActionSelectorLabel.Enabled = $true
         $ActionSelector.Enabled = $true
         $SetTimerBTN.Enabled = $true
     } else {
-        echo Shutdown is pending
         $AbortBTN.Enabled = $true
     }
 }
