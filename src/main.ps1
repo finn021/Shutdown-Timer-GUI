@@ -55,8 +55,8 @@ function New-GUI {
     $ActionSelector.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList;
     $ActionSelector.width = 170
     $ActionSelector.autosize  = $true
-    @('Hibernate','Shut Down','Restart') | ForEach-Object {[void] $ActionSelector.Items.Add($_)}
-    $ActionSelector.SelectedIndex = 1
+    @('Shut Down','Restart') | ForEach-Object {[void] $ActionSelector.Items.Add($_)}
+    $ActionSelector.SelectedIndex = 0
     $ActionSelector.Enabled = $false
     $ActionSelector.location = New-Object System.Drawing.Point(20,210)
     $ActionSelector.Font = 'Arial,12'
@@ -106,7 +106,7 @@ function Initialize-GUI {
     Write-Host "GUI initialized."
 }
 function Set-Timer {
-    $commandArgs = [ordered]@{ 0 = "/h"; 1 = "/s"; 2 = "/r"}
+    $commandArgs = [ordered]@{ 0 = "/s"; 1 = "/r"}
     $selectedIndex = $ActionSelector.SelectedIndex
     $seconds = $TimeInputBox.Value * 60
     shutdown $commandArgs.$selectedIndex /t $seconds
