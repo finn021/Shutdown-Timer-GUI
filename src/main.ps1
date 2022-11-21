@@ -1,4 +1,4 @@
-function Generate-GUI {
+function New-GUI {
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
 
@@ -90,9 +90,11 @@ function Generate-GUI {
 }
 
 function Initialize-GUI {
+    Write-Host "Running shutdown command to test if a shutdown is already pending."
     shutdown /s /t 999999 /c " "
     if ($?) {
         shutdown /a
+        Write-Host "No existing scheduled shutdown, test shutdown aborted."
         $TimeInputBoxLabel.Enabled = $true
         $TimeInputBox.Enabled = $true
         $ActionSelectorLabel.Enabled = $true
@@ -101,12 +103,14 @@ function Initialize-GUI {
     } else {
         $AbortBTN.Enabled = $true
     }
+    Write-Host "GUI initialized."
 }
 function Set-Timer {
-    $args = [ordered]@{ 0 = "/h"; 1 = "/s"; 2 = "/r"}
+    $commandArgs = [ordered]@{ 0 = "/h"; 1 = "/s"; 2 = "/r"}
     $selectedIndex = $ActionSelector.SelectedIndex
     $seconds = $TimeInputBox.Value * 60
-    shutdown $args.$selectedIndex /t $seconds
+    shutdown $commandArgs.$selectedIndex /t $seconds
+    Write-Host "Timer set for $seconds seconds."
     $TimeInputBoxLabel.Enabled = $false
     $TimeInputBox.Enabled = $false
     $ActionSelectorLabel.Enabled = $false
@@ -117,6 +121,7 @@ function Set-Timer {
 
 function Stop-Timer {
         shutdown /a
+        Write-Host "Timer aborted."
         $AbortBTN.Enabled = $false
         $TimeInputBoxLabel.Enabled = $true
         $TimeInputBox.Enabled = $true
@@ -125,4 +130,4 @@ function Stop-Timer {
         $SetTimerBTN.Enabled = $true
 }
 
-Generate-GUI
+New-GUI
